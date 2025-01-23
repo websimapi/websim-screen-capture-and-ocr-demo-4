@@ -21,6 +21,8 @@ let initialMouse = {
 };
 let initialRect = null;
 
+let autoOCRInterval = null;
+
 async function startCapture() {
   try {
     videoStream = await navigator.mediaDevices.getDisplayMedia({
@@ -174,4 +176,39 @@ function resizeSelection(deltaX, deltaY) {
   selectionRect.width += deltaX;
   selectionRect.height += deltaY;
   drawOverlayRect();
+}
+
+function performOCRAndTTS() {
+  // TO DO: implement the OCR and TTS functionality
+}
+
+function toggleAutoOCRTTS() {
+  if (!selectionRect || selectionRect.width <= 0 || selectionRect.height <= 0) {
+    alert('Please select a region before starting auto OCR');
+    return;
+  }
+  const button = document.getElementById('autoOCRButton');
+  
+  if (autoOCRInterval) {
+    clearInterval(autoOCRInterval);
+    autoOCRInterval = null;
+    button.innerHTML = `
+      <svg class="svg-icon" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="#fff"/>
+        <text x="25" y="30" text-anchor="middle" font-size="12" fill="#4CAF50" font-weight="bold">Auto</text>
+      </svg>
+      Start Auto OCR + TTS
+    `;
+  } else {
+    performOCRAndTTS();
+    const intervalSec = parseInt(document.getElementById('autoInterval').value, 10) || 15;
+    autoOCRInterval = setInterval(performOCRAndTTS, intervalSec * 1000);
+    button.innerHTML = `
+      <svg class="svg-icon" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="#fff"/>
+        <text x="25" y="30" text-anchor="middle" font-size="12" fill="#4CAF50" font-weight="bold">Stop</text>
+      </svg>
+      Stop Auto OCR + TTS
+    `;
+  }
 }
