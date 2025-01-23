@@ -1,0 +1,87 @@
+<html>
+<head>
+  <base href="https://example.com">
+  <meta charset="UTF-8">
+  <title>Screen Capture and OCR Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <h1>Screen Capture &amp; OCR</h1>
+  <div class="controls">
+    <button id="startBtn" onclick="startCapture()">
+      <svg class="svg-icon" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="#fff"/>
+        <path d="M16 12 L34 25 L16 38 Z" fill="#4CAF50"/>
+      </svg>
+      Start Screen Capture
+    </button>
+    <button id="readModeToggle" onclick="toggleReadMode()">
+      <svg class="svg-icon" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="#fff"/>
+        <text x="25" y="30" text-anchor="middle" font-size="10" fill="#4CAF50" font-weight="bold">Multi</text>
+      </svg>
+      Multi-Line Mode
+    </button>
+    <button id="forceAIButton" onclick="forceAIAnalysis()">
+      <svg class="svg-icon" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="#fff"/>
+        <text x="25" y="30" text-anchor="middle" font-size="10" fill="#4CAF50" font-weight="bold">AI</text>
+      </svg>
+      Force AI Analysis
+    </button>
+    <select id="voiceSelect">
+      <option value>Loading voices...</option>
+    </select>
+    <button id="autoOCRButton" onclick="toggleAutoOCRTTS()">
+      <svg class="svg-icon" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="#fff"/>
+        <text x="25" y="30" text-anchor="middle" font-size="12" fill="#4CAF50" font-weight="bold">Auto</text>
+      </svg>
+      Start Auto OCR + TTS
+    </button>
+    <input type="number" id="autoInterval" value="7" min="1">
+  </div>
+  
+  <div id="videoContainer">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="overlayCanvas"></canvas>
+  </div>
+  
+  <canvas id="canvas" style="display:none; width: 3840px; height: 2160px;"></canvas>
+  
+  <div id="cropPreviewContainer" class="crop-preview-container">
+    <h2>Crop Preview</h2>
+    <canvas id="cropPreviewCanvas"></canvas>
+  </div>
+
+  <textarea id="ocrResult" placeholder="Recognized text will appear here"></textarea>
+  
+  <div class="capture-regions" id="captureRegions">
+  </div>
+
+  <div class="queue-management">
+    <h2>TTS Queue</h2>
+    <button class="clear-queue" onclick="clearQueue()">Clear Queue</button>
+    <div id="queueList">
+      <!-- Queue items will be inserted here -->
+    </div>
+  </div>
+
+  <div class="voice-management">
+    <h2>Voice Management</h2>
+    <button class="clear-voices" onclick="clearAllVoices()">Clear All Voices</button>
+    <div id="userVoiceList" class="user-voice-list">
+      <!-- User voice controls will be inserted here -->
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/tesseract.js@2.1.4/dist/tesseract.min.js"></script>
+  <script src="js/capture.js"></script>
+  <script src="js/ocr.js"></script>
+  <script src="js/tts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/ai.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
